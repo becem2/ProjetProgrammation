@@ -10,12 +10,21 @@ int Saisir(){
 }
 
 void CreationFichierStation(FILE** f){
-    *f = fopen("C:\\Users\\becem\\Desktop\\c\\Project C\\test.bin" , "wb+");
+    *f = fopen("C:\\Users\\becem\\Desktop\\c\\Project C\\ProjetProgrammation\\Test.bin" , "wb+");
     if(!(*f)) exit(-1);
 }
 
 void Allocation(STATION** s, int n){
     *s = (STATION*)malloc(n*sizeof(STATION));
     if (!s) exit(-2);
+}
+
+int FichierExiste(const char *f) {
+    FILE *fichier = fopen(f, "rb"); 
+    if (fichier) {
+        fclose(fichier); 
+        return 1;     
+    }
+    return 0;
 }
     
