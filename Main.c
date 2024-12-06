@@ -24,7 +24,7 @@ int main(){
     }
 
     //Menu
-    int Menu;
+    int Menu,Menu2,Menu3;
     printf("*--------------Menu-------------*\n");
     printf("Pour faire un changement tapez 1\n");
     printf("Pour faire un traitement tapez 2\n");
@@ -53,13 +53,12 @@ int main(){
     int NbrStation;
 
     NbrStation = Saisir();
-    
 
-
-    
     Allocation(&station,NbrStation);
-    /*RemplissageTableauStation(&station, NbrStation);
-    RemplissageFichier(&station, NbrStation, &fs);*/
+
+    RemplissageTableauStation(&station, NbrStation);
+
+    /*RemplissageFichier(&station, NbrStation, &fs);*/
 
 
     return 0;

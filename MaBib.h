@@ -38,7 +38,7 @@ struct station
     char adresse[1000];
     int NbChargeur;
     int NbClient;
-    CLIENT* clien;
+    CLIENT* client;
     CHARGEUR* chargeur;
 };
 typedef struct station STATION;
