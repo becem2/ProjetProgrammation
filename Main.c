@@ -17,7 +17,7 @@ int main(){
     char *f = "stations.bin";
 
     if (FichierExiste(f)) {
-        printf("Le fichier existe déjà.\n");
+        printf("Le fichier existe deja.\n");
     } else {
         printf("Le fichier n'existe pas. Creation du fichier...\nRemplissage du fichier en cours ...\n");
         CreationFichierStation(&fs);
@@ -42,7 +42,37 @@ int main(){
     {
 
     case 1:
-        printf("Loading .... \nComing Soon\n");
+        int traitement;
+        printf("*------------Traitement-----------*\n");
+        printf("1. Totale des paiement\n");
+        printf("2. Combient de KWH sont charge dans une voiture\n");
+        printf("3. Temps restant pour charger une voiture\n");
+        printf("4. Client du mois\n");
+        printf("5. Chargeur disponible\n");
+        printf("6. Statistique\n");
+        printf("Votre choix : ");
+        scanf("%d", &traitement);
+
+        switch (traitement)
+        {
+            case 1:
+                float Total;
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            default:
+                printf("Erreur\n");
+                break;
+
+        }
         getch();
         break;
 

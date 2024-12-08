@@ -1,8 +1,17 @@
+//Structure Date:
+struct date
+{
+    int jour;
+    int mois;
+    int annee;
+};
+typedef struct date DATE;
+
 //Structure paiement : 
 struct paiement
 {
     int CodePaiement;
-    char date[20];
+    DATE date;
     int StatutPaiement;
     float prix;
 };

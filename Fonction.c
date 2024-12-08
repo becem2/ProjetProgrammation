@@ -69,8 +69,13 @@ PAIEMENT RemplirPaiement(int j) {
 
     printf("Saisir le code du %d%s paiement : ",j+1,x);
     scanf("%d", &paiement.CodePaiement);
-    printf("Saisir la date du %d%s paiement : ",j+1,x);
-    scanf("%s", paiement.date);
+    printf("Saisir la date du %d%s paiement : \n",j+1,x);
+    printf("Jour : ");
+    scanf("%d",&paiement.date.jour);
+    printf("Mois : ");
+    scanf("%d",&paiement.date.mois);
+    printf("Annee : ");
+    scanf("%d",&paiement.date.annee);
     printf("Saisir le statut du %d%s paiement : ",j+1,x);
     scanf("%d", &paiement.StatutPaiement);
     printf("Saisir le montant du %d%s paiement : ",j+1,x);
@@ -82,6 +87,7 @@ CLIENT RemplirClient(int j) {
     CLIENT client;
 
     char x[5];
+    float TempsRestant;
 
     if (j==0) strcpy(x,"ere");
     else strcpy(x,"eme");
@@ -93,7 +99,7 @@ CLIENT RemplirClient(int j) {
     printf("Saisir le pourcentage de charge du %d%s client : ",j+1,x);
     scanf("%f", &client.Pourcentage);
     printf("Saisir le temps restant (en heures) du %d%s client : ",j+1,x);
-    scanf("%f", &client.TempsRestant);
+    TempsRestant = (100 - client.Pourcentage)* 2;
     printf("Saisir le nombre de paiements pour le %d%s client : ",j+1,x);
     scanf("%d", &client.NbPaiement);
 
@@ -115,9 +121,9 @@ CHARGEUR RemplirChargeur(int j) {
     scanf("%d", &chargeur.CodeClient);
     printf("Saisir le type du %d%s chargeur : ",j+1,x);
     scanf("%d", &chargeur.Type);
-    printf("Saisir l'état d'utilisation du %d%s chargeur (0 = 'Non utiliser' , 1 = 'Utiliser') : ",j+1,x);
+    printf("Saisir l'etat d'utilisation du %d%s chargeur (0 = 'Non utiliser' , 1 = 'Utiliser') : ",j+1,x);
     scanf("%d", &chargeur.EtatUtilisation);
-    printf("Saisir l'état de maintenance du %d%s chargeur (0 = 'Bon etat' , 1 = 'Maintenance') : ",j+1,x);
+    printf("Saisir l'etat de maintenance du %d%s chargeur (0 = 'Bon etat' , 1 = 'Maintenance') : ",j+1,x);
     scanf("%s", chargeur.EtatMaintenance);
     return chargeur;
 }
@@ -194,5 +200,14 @@ void LibereMemoire(STATION *stations, int n) {
         free(stations[i].chargeur);
     }
     free(stations);
+}
+
+float TotalPaiement(STATION *station,int n){
+    float total;
+
+
+
+    return total;
+
 }
     
