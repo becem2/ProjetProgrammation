@@ -26,22 +26,22 @@ int main(){
     //Menu
     int Menu,Menu2,Menu3;
     printf("*--------------Menu-------------*\n");
-    printf("Pour faire un changement tapez 1\n");
-    printf("Pour faire un traitement tapez 2\n");
+    printf("Pour ajouter une station Tapez  1\n");
+    printf("Pour faire un traitement Tapez  2\n");
     printf("Tapez Votre choix ici : ");
     scanf("%d",&Menu);
 
     switch (Menu)
     {
     case 1:
-        printf("You Have accesed the first menu\n");
+        printf("Vous avez choisie l'option 1\n");
         break;
     case 2:
-        printf("You Have accesed the second menu\n");
+        printf("Vous avez choisie l'option 2\n");
         break;
     
     default:
-        printf("Erreur\n");
+        printf("Vous devez Tapez un nombre correcte\n");
         break;
     }
 

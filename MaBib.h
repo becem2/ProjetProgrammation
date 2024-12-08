@@ -15,6 +15,7 @@ struct client
     char Model[20];
     float Pourcentage;
     float TempsRestant;
+    int NbPaiement;
     PAIEMENT* paiement;
 };
 typedef struct client CLIENT;
