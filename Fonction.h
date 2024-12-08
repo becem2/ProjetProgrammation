@@ -1,14 +1,16 @@
 #include "Fonction.c"
 
 int Saisir();
-void CreationFichierStation(FILE**);
-void Allocation(STATION**,int);
-void Allocation1(CHARGEUR** ,int,int);
-void Allocation2(CLIENT**, int,int);
-STATION RemplireStation(int);
-CHARGEUR RemplireChargeur(int);
-CLIENT RemplireClient(int);
-PAIEMENT RemplirePaiement(int);
-void RemplissageTableauStation(STATION**, int);
-void RemplissageFichier(STATION*, int, FILE**);
-int FichierExiste(const char*);
+void CreationFichierStation(FILE**f);
+int FichierExiste(const char*f);
+void AllocationStations(STATION**stations, int n);
+void AllocationClients(CLIENT**clients, int n);
+void AllocationChargeurs(CHARGEUR**chargeurs, int n);
+void AllocationPaiements(PAIEMENT**paiements, int n);
+PAIEMENT RemplirPaiement(int j);
+CLIENT RemplirClient(int j);
+CHARGEUR RemplirChargeur(int j);
+STATION RemplirStation(int i);
+void RemplissageTableauStation(STATION**stations,int n);
+void RemplissageFichier(STATION*stations, int n,FILE**fs);
+void LibereMemoire(STATION*stations,int n);

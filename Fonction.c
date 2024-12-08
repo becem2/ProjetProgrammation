@@ -3,212 +3,196 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-int Saisir(){
+int Saisir() {
     int n;
-    printf("Ecrire le Nombre de station : ");
-    scanf("%d",&n);
+    printf("Saisir le nombre de stations : ");
+    scanf("%d", &n);
     return n;
 }
 
-void CreationFichierStation(FILE** f){
-    *f = fopen("C:\\Users\\becem\\Desktop\\c\\ProjetProgrammation\\Test.bin" , "wb+");
-    if(!(*f)) exit(-1);
+void CreationFichierStation(FILE **f) {
+    *f = fopen("stations.bin", "wb+");
+    if (!(*f)) {
+        perror("Erreur lors de la creation du fichier.");
+        exit(-1);
+    }
     fclose(*f);
 }
 
-void Allocation(STATION** s, int n) {
-    *s = (STATION*)malloc(n * sizeof(STATION));
-    if (!(*s)) {
-        printf("Erreur d'allocation du memoire pour le tableaux station.\n");
-        exit(-2);
-    }
-}
-
-void Allocation1(CHARGEUR** c, int n, int j) {
-    *c = (CHARGEUR*)malloc(n * sizeof(CHARGEUR));
-    if (!(*c)) {
-        printf("Erreur d'allocation mémoire pour le %d tableaux chargeur.\n",j+1);
-        exit(-3);
-    }
-}
-
-
 int FichierExiste(const char *f) {
-    FILE *fichier = fopen(f, "rb"); 
-    if (fichier) {
-        fclose(fichier); 
-        return 1;     
+    FILE *file = fopen(f, "rb");
+    if (file) {
+        fclose(file);
+        return 1;
     }
     return 0;
 }
 
-void Allocation2(CLIENT** cl, int n,int j){
-    *cl = (CLIENT*)malloc(n * sizeof(CLIENT));
-    if (!(*cl)) {
-        printf("Erreur d'allocation mémoire pour le %d tableaux Client.\n",j+1);
+void AllocationStations(STATION **stations, int n) {
+    *stations = (STATION *)malloc(n * sizeof(STATION));
+    if (!(*stations)) {
+        perror("Erreur d'allocation memoire pour les stations.");
+        exit(-2);
+    }
+}
+
+void AllocationClients(CLIENT **clients, int n) {
+    *clients = (CLIENT *)malloc(n * sizeof(CLIENT));
+    if (!(*clients)) {
+        perror("Erreur d'allocation memoire pour les clients.");
+        exit(-3);
+    }
+}
+
+void AllocationChargeurs(CHARGEUR **chargeurs, int n) {
+    *chargeurs = (CHARGEUR *)malloc(n * sizeof(CHARGEUR));
+    if (!(*chargeurs)) {
+        perror("Erreur d'allocation memoire pour les chargeurs.");
         exit(-4);
     }
 }
 
-void Allocation3(PAIEMENT** p,int n,int k){
-    *p = (PAIEMENT*)malloc(n*sizeof(PAIEMENT));
-    if(!(*p)){
-        printf("Erreur d;allocation memoire pour le %d tableaux Paiement \n",k+1);
+void AllocationPaiements(PAIEMENT **paiements, int n) {
+    *paiements = (PAIEMENT *)malloc(n * sizeof(PAIEMENT));
+    if (!(*paiements)) {
+        perror("Erreur d'allocation memoire pour les paiements.");
         exit(-5);
     }
 }
 
-PAIEMENT RemplirePaiement(int j){
+PAIEMENT RemplirPaiement(int j) {
     PAIEMENT paiement;
     char x[5];
-    if (j == 0) strcpy(x, "ere");
-    else strcpy(x, "eme");
 
-    printf("Tapez le Code Paiement du %d%s Paiement (int) : ", j+1,x);
-    scanf("%d",&(paiement.CodePaiement));
+    if (j==0) strcpy(x,"ere");
+    else strcpy(x,"eme");
 
-    printf("Tapez le Date du %d%s Paiement (int) : ", j+1,x);
-    scanf("%d",&(paiement.date));
-
-    printf("Tapez le statut paiement du %d%s Paiement (int) : ", j+1,x);
-    scanf("%d",&(paiement.StatutPaiement));
-
-    printf("Tapez le prix du %d%s Paiement (float) : ", j+1,x);
-    scanf("%f",&(paiement.prix));
-
+    printf("Saisir le code du %d%s paiement : ",j+1,x);
+    scanf("%d", &paiement.CodePaiement);
+    printf("Saisir la date du %d%s paiement : ",j+1,x);
+    scanf("%s", paiement.date);
+    printf("Saisir le statut du %d%s paiement : ",j+1,x);
+    scanf("%d", &paiement.StatutPaiement);
+    printf("Saisir le montant du %d%s paiement : ",j+1,x);
+    scanf("%f", &paiement.prix);
     return paiement;
 }
 
-CLIENT RemplireClient(int j){
+CLIENT RemplirClient(int j) {
     CLIENT client;
-    PAIEMENT *paiement;
+
     char x[5];
 
-    if (j == 0) strcpy(x, "ere");
-    else strcpy(x, "eme");
+    if (j==0) strcpy(x,"ere");
+    else strcpy(x,"eme");
 
-    printf("Tapez le Code Client du %d%s client (int) : ", j+1,x);
-    scanf("%d",&(client.CodeClient));
+    printf("Saisir le code du %d%s client : ",j+1,x);
+    scanf("%d", &client.CodeClient);
+    printf("Saisir le modèle de voiture du %d%s client : ",j+1,x);
+    scanf("%s", client.Model);
+    printf("Saisir le pourcentage de charge du %d%s client : ",j+1,x);
+    scanf("%f", &client.Pourcentage);
+    printf("Saisir le temps restant (en heures) du %d%s client : ",j+1,x);
+    scanf("%f", &client.TempsRestant);
+    printf("Saisir le nombre de paiements pour le %d%s client : ",j+1,x);
+    scanf("%d", &client.NbPaiement);
 
-    printf("Tapez le model du voiture du %d%s client (str) : ", j+1,x);
-    scanf("%s",&(client.Model));
-
-    printf("Tapez le pourcentage du %d%s client (float) : ", j+1,x);
-    scanf("%f",&(client.Pourcentage));
-    
-    printf("Tapez le temps restant du %d%s client (float) : ", j+1,x);
-    scanf("%f",&(client.TempsRestant));
-
-    printf("Tapez le Nombre de paiement du %d%s client (int) : ", j+1,x);
-    scanf("%d",&(client.NbPaiement));
-
-    Allocation3(&paiement,client.NbPaiement,j);
-
-    for(int k = 0;k<client.NbPaiement;k++ ){
-        client.paiement[k] = RemplirePaiement(k);
+    AllocationPaiements(&client.paiement, client.NbPaiement);
+    for (int i = 0; i < client.NbPaiement; i++) {
+        client.paiement[i] = RemplirPaiement(i);
     }
     return client;
 }
 
-CHARGEUR RemplireChargeur(int j) {
+CHARGEUR RemplirChargeur(int j) {
     CHARGEUR chargeur;
     char x[5];
 
-    if (j == 0) strcpy(x, "ere");
-    else strcpy(x, "eme");
-
-    printf("Tapez le Code Client du %d%s chargeur (int) : ",j+1,x);
-    scanf("%d",&(chargeur.CodeClient));
-
-    printf("Tapez le Type du %d%s chargeur (int) : ",j+1,x);
-    scanf("%d",&(chargeur.Type));
-
-    printf("Tapez l'Etat d'utilisation du %d%s chargeur (1 = 'Utiliser' ou 2 = 'Non utiliser') (int) : ",j+1,x);
-    scanf("%d",&(chargeur.EtatUtilisation));
-
-    printf("Tapez l'Etat de maintenance du %d%s chargeur (1 = 'bon etat' ou 2 = 'maintenance') (int) : ",j+1,x);
-    scanf("%d",&(chargeur.EtatMaintenance));
-
+    if (j==0) strcpy(x,"ere");
+    else strcpy(x,"eme");
+    
+    printf("Saisir le code client du %d%s chargeur : ",j+1,x);
+    scanf("%d", &chargeur.CodeClient);
+    printf("Saisir le type du %d%s chargeur : ",j+1,x);
+    scanf("%d", &chargeur.Type);
+    printf("Saisir l'état d'utilisation du %d%s chargeur (0 = 'Non utiliser' , 1 = 'Utiliser') : ",j+1,x);
+    scanf("%d", &chargeur.EtatUtilisation);
+    printf("Saisir l'état de maintenance du %d%s chargeur (0 = 'Bon etat' , 1 = 'Maintenance') : ",j+1,x);
+    scanf("%s", chargeur.EtatMaintenance);
     return chargeur;
 }
 
-
-STATION RemplireStation(int i) {
+STATION RemplirStation(int i) {
     STATION station;
-    CHARGEUR chargeur;
-    CLIENT client;
     char x[5];
 
-    if (i == 0) strcpy(x, "ere");
-    else strcpy(x, "eme");
+    if (i==0) strcpy(x,"ere");
+    else strcpy(x,"eme");
 
+    printf("Saisir le code du %d%s station : ",i+1,x);
+    scanf("%d", &station.codeStation);
+    printf("Saisir l'adresse du %d%s station : ",i+1,x);
+    scanf("%999s", station.adresse); // Read a full line with spaces
+    printf("Saisir le nombre de chargeurs pour la %d%s station : ",i+1,x);
+    scanf("%d", &station.NbChargeur);
 
-    // Code de la station
-    printf("Tapez le Code Station du %d%s station (int) : ", i+1,x);
-    scanf("%d", &(station.codeStation));
-
-    // Adresse
-    printf("Tapez l'adresse du %d%s station (str) : ", i+1,x);
-    scanf("%999s", station.adresse);
-
-    // Nombre de chargeurs
-    printf("Tapez le nombre de chargeurs du %d%s station (int) : ", i+1,x);
-    scanf("%d", &(station.NbChargeur));
-
-    // Allocation du tableaux Chargeur
-    Allocation1(&(station.chargeur), station.NbChargeur,i);
-
-    // Remplir les données pour chaque chargeur
-    for (int j = 0;j<station.NbChargeur;j++) {
-        station.chargeur[j] = RemplireChargeur(j);
+    AllocationChargeurs(&station.chargeur, station.NbChargeur);
+    for (int j = 0; j < station.NbChargeur; j++) {
+        station.chargeur[j] = RemplirChargeur(j);
     }
 
-    // Nombre de clients
-    printf("Tapez le nombre de clients du %d%s station (int) : ", i+1,x);
-    scanf("%d", &(station.NbClient));
+    printf("Saisir le nombre de clients pour la %d%s station : ",i+1,x);
+    scanf("%d", &station.NbClient);
 
-    // Allocation du tableaux client
-    Allocation2(&(station.client), station.NbClient,i);
-
-    // Remplire du donne pour chaque client
-    for (int k = 0;k<station.NbClient;k++){
-        station.client[k] = RemplireClient(k);
-
+    AllocationClients(&station.client, station.NbClient);
+    for (int j = 0; j < station.NbClient; j++) {
+        station.client[j] = RemplirClient(j);
     }
-    
     return station;
 }
 
-
-
-
-
-void RemplissageTableauStation(STATION**station, int n){
-    char x[5];
-    for (int i = 0;i<n;i++){
-        if (i == 0) strcpy(x, "ere");
-        else strcpy(x, "eme");
-        printf("********************************\n");
-        printf("Remplissage du %d%s station \n",i+1,x);
-        (*station)[i] = RemplireStation(i);
+void RemplissageTableauStation(STATION **stations, int n) {
+    for (int i = 0; i < n; i++) {
+        (*stations)[i] = RemplirStation(i);
     }
 }
 
-void RemplissageFichier(STATION* station, int n , FILE** fs){
-    int sizeP,sizeC,sizeCL,sizeS;
-    sizeP = sizeof(PAIEMENT);
-    sizeC = sizeof(CHARGEUR);
-    sizeCL = 2*sizeof(int) + 40*sizeof(char) +2 * sizeof(float) + sizeP;
-    sizeS = sizeC + sizeCL + 3*sizeof(int) + 1000*sizeof(char);
-    
-    *fs = fopen("C:\\Users\\becem\\Desktop\\c\\ProjetProgrammation\\Test.bin", "wb");
-    for (int i = 0;i<n;i++){
-        fwrite(station+i, sizeS, 1 , *fs);
+void RemplissageFichier(STATION *stations, int n, FILE **fs) {
+    *fs = fopen("stations.bin", "wb");
+    if (!(*fs)) {
+        perror("Erreur d'ouverture du fichier pour l'ecriture.");
+        exit(EXIT_FAILURE);
     }
 
+    for (int i = 0; i <n; i++) {
+        fwrite(&stations[i].codeStation, sizeof(int), 1, *fs);
+        fwrite(stations[i].adresse, sizeof(char), 1000, *fs);
+        fwrite(&stations[i].NbChargeur, sizeof(int), 1, *fs);
+        fwrite(&stations[i].NbClient, sizeof(int), 1, *fs);
+
+        for (int j = 0; j<stations[i].NbChargeur;j++) {
+            fwrite(&stations[i].chargeur[j], sizeof(CHARGEUR), 1, *fs);
+        }
+
+        for (int j= 0; j< stations[i].NbClient;j++) {
+            fwrite(&stations[i].client[j],sizeof(CLIENT), 1, *fs);
+            for (int k=0;k <stations[i].client[j].NbPaiement;k++) {
+                fwrite(&stations[i].client[j].paiement[k], sizeof(PAIEMENT), 1, *fs);
+            }
+        }
+    }
 
     fclose(*fs);
+}
 
+void LibereMemoire(STATION *stations, int n) {
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<stations[i].NbClient; j++) {
+            free(stations[i].client[j].paiement);
+        }
+        free(stations[i].client);
+        free(stations[i].chargeur);
+    }
+    free(stations);
 }
     

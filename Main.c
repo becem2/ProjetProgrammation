@@ -14,52 +14,46 @@ int main(){
 
 
     FILE *fs;
-    char *f = "C:\\Users\\becem\\Desktop\\c\\ProjetProgrammation\\Test.bin";
-    if (FichierExiste(f) == 1) {
-    printf("Fichier existe\n");
-    
-    } 
-    else {
-    printf("Fichier non existe\nOn Va cree la fichier\n");
-    CreationFichierStation(&fs);
+    char *f = "stations.bin";
+
+    if (FichierExiste(f)) {
+        printf("Le fichier existe déjà.\n");
+    } else {
+        printf("Le fichier n'existe pas. Creation du fichier...\nRemplissage du fichier en cours ...\n");
+        CreationFichierStation(&fs);
+        int nbrStations = Saisir();
+        STATION *stations;
+        AllocationStations(&stations, nbrStations);
+        RemplissageTableauStation(&stations, nbrStations);
+        RemplissageFichier(stations, nbrStations, &fs);
+        LibereMemoire(stations, nbrStations);
+        printf("Les donnees ont ete enregistrees avec succes.\n");
     }
 
     //Menu
-    int Menu,Menu2,Menu3;
-    printf("*--------------Menu-------------*\n");
-    printf("Pour ajouter une station Tapez  1\n");
-    printf("Pour faire un traitement Tapez  2\n");
-    printf("Tapez Votre choix ici : ");
-    scanf("%d",&Menu);
 
-    switch (Menu)
+    int choixMenu;
+    printf("\n*-------------- Menu -------------*\n");
+    printf("1. Faire du traitement\n");
+    printf("2. Quitter\n");
+    printf("Votre choix : ");
+    scanf("%d", &choixMenu);
+    switch (choixMenu)
     {
+
     case 1:
-        printf("Vous avez choisie l'option 1\n");
+        printf("Loading .... \nComing Soon\n");
+        getch();
         break;
-    case 2:
-        printf("Vous avez choisie l'option 2\n");
+
+    case 2 :
+        printf("Good Bye\n");
         break;
-    
+
     default:
-        printf("Vous devez Tapez un nombre correcte\n");
+        printf("Erreur\n");
         break;
     }
 
-
-    //Programme
-    
-    STATION *station;
-    
-    int NbrStation;
-
-    NbrStation = Saisir();
-
-    Allocation(&station,NbrStation);
-
-    RemplissageTableauStation(&station, NbrStation);
-
-    RemplissageFichier(station, NbrStation, &fs);
-    getch();
     return 0;
 }
