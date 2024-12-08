@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <string.h>
 
 
 
@@ -13,7 +14,7 @@ int main(){
 
 
     FILE *fs;
-    char *f = "C:\\Users\\becem\\Desktop\\c\\Project C\\ProjetProgrammation\\Test.bin";
+    char *f = "C:\\Users\\becem\\Desktop\\c\\ProjetProgrammation\\Test.bin";
     if (FichierExiste(f) == 1) {
     printf("Fichier existe\n");
     
@@ -58,8 +59,7 @@ int main(){
 
     RemplissageTableauStation(&station, NbrStation);
 
-    /*RemplissageFichier(&station, NbrStation, &fs);*/
-
-
+    RemplissageFichier(station, NbrStation, &fs);
+    getch();
     return 0;
 }

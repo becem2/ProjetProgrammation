@@ -1,4 +1,5 @@
 #include "Fonction.c"
+
 int Saisir();
 void CreationFichierStation(FILE**);
 void Allocation(STATION**,int);
