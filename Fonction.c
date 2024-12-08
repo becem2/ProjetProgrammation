@@ -46,7 +46,6 @@ void Allocation2(CLIENT** cl, int n,int j){
         printf("Erreur d'allocation mémoire pour le %d tableaux Client.\n",j+1);
         exit(-4);
     }
-
 }
 
 void Allocation3(PAIEMENT** p,int n,int k){
@@ -55,7 +54,6 @@ void Allocation3(PAIEMENT** p,int n,int k){
         printf("Erreur d;allocation memoire pour le %d tableaux Paiement \n",k+1);
         exit(-5);
     }
-
 }
 
 PAIEMENT RemplirePaiement(int j){
@@ -99,8 +97,6 @@ CLIENT RemplireClient(int j){
     for(int k = 0;k<client.NbPaiement;k++ ){
         client.paiement[k] = RemplirePaiement(k);
     }
-
-
     return client;
 }
 
@@ -143,8 +139,6 @@ STATION RemplireStation(int i) {
     // Allocation du tableaux Chargeur
     Allocation1(&(station.chargeur), station.NbChargeur,i);
 
-
-
     // Remplir les données pour chaque chargeur
     for (int j = 0;j<station.NbChargeur;j++) {
         station.chargeur[j] = RemplireChargeur(j);
@@ -162,9 +156,7 @@ STATION RemplireStation(int i) {
         station.client[k] = RemplireClient(k);
 
     }
-
-
-
+    
     return station;
 }
 
@@ -174,6 +166,7 @@ STATION RemplireStation(int i) {
 
 void RemplissageTableauStation(STATION**station, int n){
     for (int i = 0;i<n;i++){
+        printf("********************************\n");
         (*station)[i] = RemplireStation(i);
     }
 }
