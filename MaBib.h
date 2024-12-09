@@ -1,65 +1,44 @@
-//Structure Date:
-struct date
-{
+// Struct Definitions
+typedef struct voiture {
+    int NbSerie;
+    char Marque[100];
+    char Model[100];
+} VOITURE;
+
+typedef struct date {
     int jour;
     int mois;
     int annee;
-};
-typedef struct date DATE;
+} DATE;
 
-//Structure paiement : 
-struct paiement
-{
+typedef struct paiement {
     int CodePaiement;
     DATE date;
     int StatutPaiement;
     float prix;
-};
-typedef struct paiement PAIEMENT;
+} PAIEMENT;
 
-//structure client :
-struct client
-{
+typedef struct client {
     int CodeClient;
-    char Model[20];
+    VOITURE voiture;
     float Pourcentage;
     float TempsRestant;
     int NbPaiement;
     PAIEMENT* paiement;
-};
-typedef struct client CLIENT;
+} CLIENT;
 
-
-//Structure chargeur :
-struct chargeur
-{
+typedef struct chargeur {
     int CodeClient;
     int Type;
     int EtatUtilisation;
     char EtatMaintenance[1000];
-};
-typedef struct chargeur CHARGEUR;
+} CHARGEUR;
 
-
-//Structure station :
-struct station
-{
+typedef struct station {
     int codeStation;
     char adresse[1000];
     int NbChargeur;
     int NbClient;
     CLIENT* client;
     CHARGEUR* chargeur;
-};
-typedef struct station STATION;
-
-
-//structure Partenaire : 
-struct partenaire
-{
-    int CodePartenaire;
-    char NomPartenaire[20];
-    int TypePartenaire;
-    char Feedback[2000];
-};
-typedef struct partenaire PARTENAIRE;
+} STATION;

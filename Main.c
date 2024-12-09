@@ -8,82 +8,55 @@
 
 
 
-int main(){
-    //Testez si la fichier existe ou non
+int main() {
+    STATION* station = NULL;
+    const char* filename = "stations.bin";
+
     printf("*-----------------------------*\n");
 
-
-    FILE *fs;
-    char *f = "stations.bin";
-
-    if (FichierExiste(f)) {
-        printf("Le fichier existe deja.\n");
+    if (fopen(filename, "rb") != NULL) {
+        printf("Le fichier existe deja. Chargement des donnees...\n");
+        ChargerFichier(&station, filename);
     } else {
-        printf("Le fichier n'existe pas. Creation du fichier...\nRemplissage du fichier en cours ...\n");
-        CreationFichierStation(&fs);
-        int nbrStations = Saisir();
-        STATION *stations;
-        AllocationStations(&stations, nbrStations);
-        RemplissageTableauStation(&stations, nbrStations);
-        RemplissageFichier(stations, nbrStations, &fs);
-        LibereMemoire(stations, nbrStations);
-        printf("Les donnees ont ete enregistrees avec succes.\n");
+        printf("Le fichier n'existe pas. Creation et remplissage...\n");
+        AllocationStation(&station);
+        *station = RemplirStation();
+        SauvegarderFichier(station, filename);
     }
 
-    //Menu
-
+    // Menu
     int choixMenu;
-    printf("\n*-------------- Menu -------------*\n");
-    printf("1. Faire du traitement\n");
-    printf("2. Quitter\n");
-    printf("Votre choix : ");
-    scanf("%d", &choixMenu);
-    switch (choixMenu)
-    {
-
-    case 1:
-        int traitement;
-        printf("*------------Traitement-----------*\n");
-        printf("1. Totale des paiement\n");
-        printf("2. Combient de KWH sont charge dans une voiture\n");
-        printf("3. Temps restant pour charger une voiture\n");
-        printf("4. Client du mois\n");
-        printf("5. Chargeur disponible\n");
-        printf("6. Statistique\n");
+    do {
+        printf("\n*-------------- Menu -------------*\n");
+        printf("1. Total des paiements\n");
+        printf("2. Temps restant pour charger une voiture\n");
+        printf("3. Chargeurs disponibles\n");
+        printf("4. Quitter\n");
         printf("Votre choix : ");
-        scanf("%d", &traitement);
+        scanf("%d", &choixMenu);
 
-        switch (traitement)
-        {
-            case 1:
-                float Total;
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            default:
-                printf("Erreur\n");
-                break;
-
+        switch (choixMenu) {
+        case 1:
+            printf("Total des paiements : %.2f\n", TotalPaiement(station));
+            break;
+        case 2: {
+            int clientCode;
+            printf("Saisir le code client : ");
+            scanf("%d", &clientCode);
+            TempsRestantClient(station, clientCode);
+            break;
         }
-        getch();
-        break;
+        case 3:
+            ChargeursDisponibles(station);
+            break;
+        case 4:
+            printf("Goodbye!\n");
+            break;
+        default:
+            printf("Choix invalide.\n");
+        }
+    } while (choixMenu != 4);
 
-    case 2 :
-        printf("Good Bye\n");
-        break;
-
-    default:
-        printf("Erreur\n");
-        break;
-    }
-
+    LibereMemoire(station);
     return 0;
 }

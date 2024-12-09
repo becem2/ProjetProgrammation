@@ -3,106 +3,72 @@
 #include <stdlib.h>
 #include <string.h>
 
-int Saisir() {
-    int n;
-    printf("Saisir le nombre de stations : ");
-    scanf("%d", &n);
-    return n;
-}
-
-void CreationFichierStation(FILE **f) {
-    *f = fopen("stations.bin", "wb+");
-    if (!(*f)) {
-        perror("Erreur lors de la creation du fichier.");
-        exit(-1);
-    }
-    fclose(*f);
-}
-
-int FichierExiste(const char *f) {
-    FILE *file = fopen(f, "rb");
-    if (file) {
-        fclose(file);
-        return 1;
-    }
-    return 0;
-}
-
-void AllocationStations(STATION **stations, int n) {
-    *stations = (STATION *)malloc(n * sizeof(STATION));
-    if (!(*stations)) {
-        perror("Erreur d'allocation memoire pour les stations.");
-        exit(-2);
+void AllocationStation(STATION** station) {
+    *station = (STATION*)malloc(sizeof(STATION));
+    if (!(*station)) {
+        perror("Erreur d'allocation memoire pour la station.");
+        exit(EXIT_FAILURE);
     }
 }
 
-void AllocationClients(CLIENT **clients, int n) {
-    *clients = (CLIENT *)malloc(n * sizeof(CLIENT));
+void AllocationClients(CLIENT** clients, int n) {
+    *clients = (CLIENT*)malloc(n * sizeof(CLIENT));
     if (!(*clients)) {
         perror("Erreur d'allocation memoire pour les clients.");
-        exit(-3);
+        exit(EXIT_FAILURE);
     }
 }
 
-void AllocationChargeurs(CHARGEUR **chargeurs, int n) {
-    *chargeurs = (CHARGEUR *)malloc(n * sizeof(CHARGEUR));
+void AllocationChargeurs(CHARGEUR** chargeurs, int n) {
+    *chargeurs = (CHARGEUR*)malloc(n * sizeof(CHARGEUR));
     if (!(*chargeurs)) {
         perror("Erreur d'allocation memoire pour les chargeurs.");
-        exit(-4);
+        exit(EXIT_FAILURE);
     }
 }
 
-void AllocationPaiements(PAIEMENT **paiements, int n) {
-    *paiements = (PAIEMENT *)malloc(n * sizeof(PAIEMENT));
+void AllocationPaiements(PAIEMENT** paiements, int n) {
+    *paiements = (PAIEMENT*)malloc(n * sizeof(PAIEMENT));
     if (!(*paiements)) {
         perror("Erreur d'allocation memoire pour les paiements.");
-        exit(-5);
+        exit(EXIT_FAILURE);
     }
 }
 
+// Free Memory
+void LibereMemoire(STATION* station) {
+    if (!station) return;
+    for (int i = 0; i < station->NbClient; i++) {
+        free(station->client[i].paiement);
+    }
+    free(station->client);
+    free(station->chargeur);
+    free(station);
+}
+
+// Input Functions
 PAIEMENT RemplirPaiement(int j) {
     PAIEMENT paiement;
-    char x[5];
-
-    if (j==0) strcpy(x,"ere");
-    else strcpy(x,"eme");
-
-    printf("Saisir le code du %d%s paiement : ",j+1,x);
+    printf("Saisir le code du paiement : ");
     scanf("%d", &paiement.CodePaiement);
-    printf("Saisir la date du %d%s paiement : \n",j+1,x);
-    printf("Jour : ");
-    scanf("%d",&paiement.date.jour);
-    printf("Mois : ");
-    scanf("%d",&paiement.date.mois);
-    printf("Annee : ");
-    scanf("%d",&paiement.date.annee);
-    printf("Saisir le statut du %d%s paiement : ",j+1,x);
+    printf("Saisir la date (jour mois annee) : ");
+    scanf("%d %d %d", &paiement.date.jour, &paiement.date.mois, &paiement.date.annee);
+    printf("Saisir le statut du paiement : ");
     scanf("%d", &paiement.StatutPaiement);
-    printf("Saisir le montant du %d%s paiement : ",j+1,x);
+    printf("Saisir le montant : ");
     scanf("%f", &paiement.prix);
     return paiement;
 }
 
 CLIENT RemplirClient(int j) {
     CLIENT client;
-
-    char x[5];
-    float TempsRestant;
-
-    if (j==0) strcpy(x,"ere");
-    else strcpy(x,"eme");
-
-    printf("Saisir le code du %d%s client : ",j+1,x);
+    printf("Saisir le code client : ");
     scanf("%d", &client.CodeClient);
-    printf("Saisir le modèle de voiture du %d%s client : ",j+1,x);
-    scanf("%s", client.Model);
-    printf("Saisir le pourcentage de charge du %d%s client : ",j+1,x);
+    printf("Saisir le pourcentage de charge : ");
     scanf("%f", &client.Pourcentage);
-    printf("Saisir le temps restant (en heures) du %d%s client : ",j+1,x);
-    TempsRestant = (100 - client.Pourcentage)* 2;
-    printf("Saisir le nombre de paiements pour le %d%s client : ",j+1,x);
+    client.TempsRestant = (100 - client.Pourcentage)*2;
+    printf("Saisir le nombre de paiements : ");
     scanf("%d", &client.NbPaiement);
-
     AllocationPaiements(&client.paiement, client.NbPaiement);
     for (int i = 0; i < client.NbPaiement; i++) {
         client.paiement[i] = RemplirPaiement(i);
@@ -112,102 +78,102 @@ CLIENT RemplirClient(int j) {
 
 CHARGEUR RemplirChargeur(int j) {
     CHARGEUR chargeur;
-    char x[5];
-
-    if (j==0) strcpy(x,"ere");
-    else strcpy(x,"eme");
-    
-    printf("Saisir le code client du %d%s chargeur : ",j+1,x);
+    printf("Saisir le code client du chargeur : ");
     scanf("%d", &chargeur.CodeClient);
-    printf("Saisir le type du %d%s chargeur : ",j+1,x);
+    printf("Saisir le type : ");
     scanf("%d", &chargeur.Type);
-    printf("Saisir l'etat d'utilisation du %d%s chargeur (0 = 'Non utiliser' , 1 = 'Utiliser') : ",j+1,x);
+    printf("Saisir l'etat d'utilisation (0 = Non utilise, 1 = En utilisation) : ");
     scanf("%d", &chargeur.EtatUtilisation);
-    printf("Saisir l'etat de maintenance du %d%s chargeur (0 = 'Bon etat' , 1 = 'Maintenance') : ",j+1,x);
+    printf("Saisir l'etat de maintenance : ");
     scanf("%s", chargeur.EtatMaintenance);
     return chargeur;
 }
 
-STATION RemplirStation(int i) {
+STATION RemplirStation() {
     STATION station;
-    char x[5];
-
-    if (i==0) strcpy(x,"ere");
-    else strcpy(x,"eme");
-
-    printf("Saisir le code du %d%s station : ",i+1,x);
+    printf("Saisir le code de la station : ");
     scanf("%d", &station.codeStation);
-    printf("Saisir l'adresse du %d%s station : ",i+1,x);
-    scanf("%999s", station.adresse); // Read a full line with spaces
-    printf("Saisir le nombre de chargeurs pour la %d%s station : ",i+1,x);
+    printf("Saisir l'adresse : ");
+    scanf("%s", station.adresse);
+
+    printf("Saisir le nombre de chargeurs : ");
     scanf("%d", &station.NbChargeur);
-
     AllocationChargeurs(&station.chargeur, station.NbChargeur);
-    for (int j = 0; j < station.NbChargeur; j++) {
-        station.chargeur[j] = RemplirChargeur(j);
+    for (int i = 0; i < station.NbChargeur; i++) {
+        station.chargeur[i] = RemplirChargeur(i);
     }
 
-    printf("Saisir le nombre de clients pour la %d%s station : ",i+1,x);
+    printf("Saisir le nombre de clients : ");
     scanf("%d", &station.NbClient);
-
     AllocationClients(&station.client, station.NbClient);
-    for (int j = 0; j < station.NbClient; j++) {
-        station.client[j] = RemplirClient(j);
+    for (int i = 0; i < station.NbClient; i++) {
+        station.client[i] = RemplirClient(i);
     }
+
     return station;
 }
 
-void RemplissageTableauStation(STATION **stations, int n) {
-    for (int i = 0; i < n; i++) {
-        (*stations)[i] = RemplirStation(i);
-    }
-}
-
-void RemplissageFichier(STATION *stations, int n, FILE **fs) {
-    *fs = fopen("stations.bin", "wb");
-    if (!(*fs)) {
-        perror("Erreur d'ouverture du fichier pour l'ecriture.");
+// Charger et Sauvegarder
+void ChargerFichier(STATION** station, const char* filename) {
+    FILE* file = fopen(filename, "rb");
+    if (!file) {
+        perror("Erreur d'ouverture du fichier.");
         exit(EXIT_FAILURE);
     }
 
-    for (int i = 0; i <n; i++) {
-        fwrite(&stations[i].codeStation, sizeof(int), 1, *fs);
-        fwrite(stations[i].adresse, sizeof(char), 1000, *fs);
-        fwrite(&stations[i].NbChargeur, sizeof(int), 1, *fs);
-        fwrite(&stations[i].NbClient, sizeof(int), 1, *fs);
+    AllocationStation(station);
+    fread(*station, sizeof(STATION), 1, file);
 
-        for (int j = 0; j<stations[i].NbChargeur;j++) {
-            fwrite(&stations[i].chargeur[j], sizeof(CHARGEUR), 1, *fs);
-        }
+    AllocationClients(&(*station)->client, (*station)->NbClient);
+    fread((*station)->client, sizeof(CLIENT), (*station)->NbClient, file);
 
-        for (int j= 0; j< stations[i].NbClient;j++) {
-            fwrite(&stations[i].client[j],sizeof(CLIENT), 1, *fs);
-            for (int k=0;k <stations[i].client[j].NbPaiement;k++) {
-                fwrite(&stations[i].client[j].paiement[k], sizeof(PAIEMENT), 1, *fs);
-            }
-        }
-    }
+    AllocationChargeurs(&(*station)->chargeur, (*station)->NbChargeur);
+    fread((*station)->chargeur, sizeof(CHARGEUR), (*station)->NbChargeur, file);
 
-    fclose(*fs);
+    fclose(file);
 }
 
-void LibereMemoire(STATION *stations, int n) {
-    for (int i=0;i<n;i++) {
-        for (int j=0;j<stations[i].NbClient; j++) {
-            free(stations[i].client[j].paiement);
-        }
-        free(stations[i].client);
-        free(stations[i].chargeur);
+void SauvegarderFichier(STATION* station, const char* filename) {
+    FILE* file = fopen(filename, "wb");
+    if (!file) {
+        perror("Erreur d'ouverture du fichier.");
+        exit(EXIT_FAILURE);
     }
-    free(stations);
+
+    fwrite(station, sizeof(STATION), 1, file);
+    fwrite(station->client, sizeof(CLIENT), station->NbClient, file);
+    fwrite(station->chargeur, sizeof(CHARGEUR), station->NbChargeur, file);
+
+    fclose(file);
 }
 
-float TotalPaiement(STATION *station,int n){
-    float total;
+// Logic Functions
+void TempsRestantClient(STATION* station, int clientCode) {
+    for (int i = 0; i < station->NbClient; i++) {
+        if (station->client[i].CodeClient == clientCode) {
+            printf("Temps restant pour le client %d : %.2f minutes\n", clientCode, station->client[i].TempsRestant);
+            return;
+        }
+    }
+    printf("Client non trouve.\n");
+}
 
+void ChargeursDisponibles(STATION* station) {
+    printf("Chargeurs disponibles :\n");
+    for (int i = 0; i < station->NbChargeur; i++) {
+        if (station->chargeur[i].EtatUtilisation == 0) {
+            printf("Chargeur %d : %s\n", station->chargeur[i].CodeClient, station->chargeur[i].EtatMaintenance);
+        }
+    }
+}
 
-
+float TotalPaiement(STATION* station) {
+    float total = 0;
+    for (int i = 0; i < station->NbClient; i++) {
+        for (int j = 0; j < station->client[i].NbPaiement; j++) {
+            total += station->client[i].paiement[j].prix;
+        }
+    }
     return total;
-
 }
     
