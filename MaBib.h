@@ -1,4 +1,3 @@
-// Struct Definitions
 struct voiture {
     int NbSerie;
     char Marque[100];

@@ -6,36 +6,35 @@
 void AllocationStation(STATION** station) {
     *station = (STATION*)malloc(sizeof(STATION));
     if (!(*station)) {
-        perror("Erreur d'allocation memoire pour la station.");
-        exit(EXIT_FAILURE);
+        printf("Erreur d'allocation memoire pour la station.");
+        exit(-1);
     }
 }
 
 void AllocationClients(CLIENT** clients, int n) {
     *clients = (CLIENT*)malloc(n * sizeof(CLIENT));
     if (!(*clients)) {
-        perror("Erreur d'allocation memoire pour les clients.");
-        exit(EXIT_FAILURE);
+        printf("Erreur d'allocation memoire pour les clients.");
+        exit(-2);
     }
 }
 
 void AllocationChargeurs(CHARGEUR** chargeurs, int n) {
     *chargeurs = (CHARGEUR*)malloc(n * sizeof(CHARGEUR));
     if (!(*chargeurs)) {
-        perror("Erreur d'allocation memoire pour les chargeurs.");
-        exit(EXIT_FAILURE);
+        printf("Erreur d'allocation memoire pour les chargeurs.");
+        exit(-3);
     }
 }
 
 void AllocationPaiements(PAIEMENT** paiements, int n) {
     *paiements = (PAIEMENT*)malloc(n * sizeof(PAIEMENT));
     if (!(*paiements)) {
-        perror("Erreur d'allocation memoire pour les paiements.");
-        exit(EXIT_FAILURE);
+        printf("Erreur d'allocation memoire pour les paiements.");
+        exit(-4);
     }
 }
 
-// Free Memory
 void LibereMemoire(STATION* station) {
     if (!station) return;
     for (int i = 0; i < station->NbClient; i++) {
@@ -46,7 +45,6 @@ void LibereMemoire(STATION* station) {
     free(station);
 }
 
-// Input Functions
 PAIEMENT RemplirPaiement(int j) {
     PAIEMENT paiement;
     printf("Saisir le code du paiement : ");
@@ -113,12 +111,11 @@ STATION RemplirStation() {
     return station;
 }
 
-// Charger et Sauvegarder
 void ChargerFichier(STATION** station, const char* filename) {
     FILE* file = fopen(filename, "rb");
     if (!file) {
-        perror("Erreur d'ouverture du fichier.");
-        exit(EXIT_FAILURE);
+        printf("Erreur d'ouverture du fichier.");
+        exit(-5);
     }
 
     AllocationStation(station);
@@ -136,8 +133,8 @@ void ChargerFichier(STATION** station, const char* filename) {
 void SauvegarderFichier(STATION* station, const char* filename) {
     FILE* file = fopen(filename, "wb");
     if (!file) {
-        perror("Erreur d'ouverture du fichier.");
-        exit(EXIT_FAILURE);
+        printf("Erreur d'ouverture du fichier.");
+        exit(-6);
     }
 
     fwrite(station, sizeof(STATION), 1, file);
@@ -147,7 +144,6 @@ void SauvegarderFichier(STATION* station, const char* filename) {
     fclose(file);
 }
 
-// Logic Functions
 void TempsRestantClient(STATION* station, int clientCode) {
     for (int i = 0; i < station->NbClient; i++) {
         if (station->client[i].CodeClient == clientCode) {
@@ -176,4 +172,39 @@ float TotalPaiement(STATION* station) {
     }
     return total;
 }
-    
+
+void AjouterClient(STATION* station) {
+    if (station == NULL) {
+        printf("Erreur : station est NULL.\n");
+        return;
+    }
+
+    station->client = realloc(station->client, (station->NbClient + 1) * sizeof(CLIENT));
+    if (station->client == NULL) {
+        printf("Erreur de reallocation de memoire.\n");
+        return;
+    }
+
+    CLIENT* newClient = &station->client[station->NbClient];
+
+    printf("Saisir le code client : ");
+    scanf("%d", &newClient->CodeClient);
+    printf("Saisir le Numero du serie de la voiture du client : ");
+    scanf("%d", newClient->voiture.NbSerie);
+    printf("Saisir la Marque de la voiture du client : ");
+    scanf("%s", newClient->voiture.Marque);
+    printf("Saisir le Model de la voiture du client : ");
+    scanf("%s", newClient->voiture.Model);
+    printf("Saisir le Pourcentage de la voiture du client : ");
+    scanf("%f", &newClient->Pourcentage);
+    newClient->TempsRestant = (100-newClient->Pourcentage)*2;
+    printf("Saisir le Nombre de paiement du client : ");
+    scanf("%f", &newClient->NbPaiement);
+    for (int i = 0;i<newClient->NbPaiement;i++){
+        newClient->paiement[i] = RemplirPaiement(i);
+    }
+
+    station->NbClient++;
+
+    printf("Client ajouté avec succès !\n");
+}

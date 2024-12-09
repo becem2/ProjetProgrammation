@@ -5,21 +5,20 @@
 
 int main() {
     STATION* station = NULL;
-    const char* filename = "stations.bin";
+    const char* NomFichier = "stations.bin";
 
     printf("*-----------------------------*\n");
 
-    if (fopen(filename, "rb") != NULL) {
+    if (fopen(NomFichier, "rb") != NULL) {
         printf("Le fichier existe deja. Chargement des donnees...\n");
-        ChargerFichier(&station, filename);
+        ChargerFichier(&station, NomFichier);
     } else {
         printf("Le fichier n'existe pas. Creation et remplissage...\n");
         AllocationStation(&station);
         *station = RemplirStation();
-        SauvegarderFichier(station, filename);
+        SauvegarderFichier(station, NomFichier);
     }
 
-    // Main menu
     int choixMenu;
     do {
         printf("\n*-------------- Menu Principal -------------*\n");
@@ -31,7 +30,6 @@ int main() {
 
         switch (choixMenu) {
         case 1: {
-            // Submenu for file modification
             int choixModification;
             do {
                 printf("\n*-------- Modification du Fichier --------*\n");
@@ -44,16 +42,15 @@ int main() {
 
                 switch (choixModification) {
                 case 1:
-                    printf("Ajout de client (fonctionnalité à implémenter).\n");
-                    // Add function calls for adding a client
+                    printf("Ajout d'un nouveau client.\n");
+                    AjouterClient(station);
+                    SauvegarderFichier(station, NomFichier);
                     break;
                 case 2:
                     printf("Modification de client (fonctionnalité à implémenter).\n");
-                    // Add function calls for modifying a client
                     break;
                 case 3:
                     printf("Suppression de client (fonctionnalité à implémenter).\n");
-                    // Add function calls for deleting a client
                     break;
                 case 4:
                     printf("Retour au menu principal.\n");
@@ -65,7 +62,6 @@ int main() {
             break;
         }
         case 2: {
-            // Submenu for traitement
             int choixTraitement;
             do {
                 printf("\n*------------ Traitement -----------*\n");
@@ -81,10 +77,10 @@ int main() {
                     printf("Total des paiements : %.2f\n", TotalPaiement(station));
                     break;
                 case 2: {
-                    int clientCode;
+                    int CodeClient;
                     printf("Saisir le code client : ");
-                    scanf("%d", &clientCode);
-                    TempsRestantClient(station, clientCode);
+                    scanf("%d", &CodeClient);
+                    TempsRestantClient(station, CodeClient);
                     break;
                 }
                 case 3:
