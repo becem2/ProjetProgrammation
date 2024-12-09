@@ -47,10 +47,10 @@ int main() {
                     int choixClient;
                     do{
                         printf("\n*--------Modification du Client-------*\n");
-                        printf("1. Modifier un Client");
-                        printf("2. Ajout un Client");
-                        printf("3. Supprimer un Client");
-                        printf("4. Retour au menu modification");
+                        printf("1. Modifier un Client\n");
+                        printf("2. Ajout un Client\n");
+                        printf("3. Supprimer un Client\n");
+                        printf("4. Retour au menu modification\n");
                         printf("Votre choix : ");
                         scanf("%d",&choixClient);
                         switch (choixClient){
