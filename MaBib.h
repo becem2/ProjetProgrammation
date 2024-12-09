@@ -1,44 +1,50 @@
 // Struct Definitions
-typedef struct voiture {
+struct voiture {
     int NbSerie;
     char Marque[100];
     char Model[100];
-} VOITURE;
+};
+typedef struct voiture VOITURE;
 
-typedef struct date {
+struct date {
     int jour;
     int mois;
     int annee;
-} DATE;
+};
+typedef struct date DATE;
 
-typedef struct paiement {
+struct paiement {
     int CodePaiement;
     DATE date;
     int StatutPaiement;
     float prix;
-} PAIEMENT;
+};
+typedef struct paiement PAIEMENT;
 
-typedef struct client {
+struct client {
     int CodeClient;
     VOITURE voiture;
     float Pourcentage;
     float TempsRestant;
     int NbPaiement;
     PAIEMENT* paiement;
-} CLIENT;
+};
+typedef struct client CLIENT;
 
-typedef struct chargeur {
+struct chargeur {
     int CodeClient;
     int Type;
     int EtatUtilisation;
     char EtatMaintenance[1000];
-} CHARGEUR;
+};
+typedef struct chargeur CHARGEUR;
 
-typedef struct station {
+struct station {
     int codeStation;
     char adresse[1000];
     int NbChargeur;
     int NbClient;
     CLIENT* client;
     CHARGEUR* chargeur;
-} STATION;
+};
+typedef struct station STATION;
