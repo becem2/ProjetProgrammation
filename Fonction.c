@@ -77,7 +77,7 @@ CLIENT RemplirClient(int j) {
 CHARGEUR RemplirChargeur(int j) {
     CHARGEUR chargeur;
     printf("Saisir le code client du chargeur : ");
-    scanf("%d", &chargeur.CodeClient);
+    scanf("%d", &chargeur.CodeChargeur);
     printf("Saisir le type : ");
     scanf("%d", &chargeur.Type);
     printf("Saisir l'etat d'utilisation (0 = Non utilise, 1 = En utilisation) : ");
@@ -158,7 +158,7 @@ void ChargeursDisponibles(STATION* station) {
     printf("Chargeurs disponibles :\n");
     for (int i = 0; i < station->NbChargeur; i++) {
         if (station->chargeur[i].EtatUtilisation == 0) {
-            printf("Chargeur %d : %s\n", station->chargeur[i].CodeClient, station->chargeur[i].EtatMaintenance);
+            printf("Chargeur %d : %s\n", station->chargeur[i].CodeChargeur, station->chargeur[i].EtatMaintenance);
         }
     }
 }
@@ -174,16 +174,8 @@ float TotalPaiement(STATION* station) {
 }
 
 void AjouterClient(STATION* station) {
-    if (station == NULL) {
-        printf("Erreur : station est NULL.\n");
-        return;
-    }
 
     station->client = realloc(station->client, (station->NbClient + 1) * sizeof(CLIENT));
-    if (station->client == NULL) {
-        printf("Erreur de reallocation de memoire.\n");
-        return;
-    }
 
     CLIENT* newClient = &station->client[station->NbClient];
 
@@ -207,4 +199,51 @@ void AjouterClient(STATION* station) {
     station->NbClient++;
 
     printf("Client ajouté avec succès !\n");
+}
+
+void AjouterChargeur(STATION* station) {
+
+
+    station->chargeur = realloc(station->chargeur, (station->NbChargeur + 1) * sizeof(CHARGEUR));
+
+    CHARGEUR* newChargeur = &station->chargeur[station->NbChargeur];
+
+    printf("Saisir le code Chargeur : ");
+    scanf("%d", &newChargeur->CodeChargeur);
+    printf("Saisir le type du Chargeur : ");
+    scanf("%d", newChargeur->Type);
+    printf("Saisir l'Etat d'Utilisation du chargeur : ");
+    scanf("%s", newChargeur->EtatUtilisation);
+    printf("Saisir l'Etat de maintenenace du chargeur : ");
+    scanf("%s", newChargeur->EtatMaintenance);
+
+    station->NbChargeur++;
+
+    printf("Chargeur ajouté avec succès !\n");
+}
+
+void AjouterPaiement(STATION* station) {
+
+
+    station->client->paiement = realloc(station->client->paiement, (station->client->NbPaiement + 1) * sizeof(PAIEMENT));
+
+    PAIEMENT* newPaiement = &station->client->paiement[station->client->NbPaiement];
+
+    printf("Saisir le code Paiement : ");
+    scanf("%d", &newPaiement->CodePaiement);
+    printf("Saisir la date du Paiement : \n");
+    printf("Jour : ");
+    scanf("%d",&newPaiement->date.jour);
+    printf("Mois : ");
+    scanf("%d",&newPaiement->date.mois);
+    printf("Annee : ");
+    scanf("%d",&newPaiement->date.annee);
+    printf("Saisir la statut du Paiement : ");
+    scanf("%s", newPaiement->StatutPaiement);
+    printf("Saisir le prix du Paiement : ");
+    scanf("%s", newPaiement->prix);
+
+    station->client->NbPaiement++;
+
+    printf("Paiement ajouté avec succès !\n");
 }

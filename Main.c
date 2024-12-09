@@ -24,7 +24,7 @@ int main() {
         printf("\n*-------------- Menu Principal -------------*\n");
         printf("1. Modification du fichier\n");
         printf("2. Traitement\n");
-        printf("3. Quitter\n");
+        printf("9. Quitter\n");
         printf("Votre choix : ");
         scanf("%d", &choixMenu);
 
@@ -36,8 +36,7 @@ int main() {
                 printf("1. Modifier Client\n");
                 printf("2. Modifier Chargeur\n");
                 printf("3. Modifier Paiement\n");
-                printf("4. Modifier Voiture\n");
-                printf("5. Retour au menu principal\n");
+                printf("9. Retour au menu principal\n");
                 printf("Votre choix : ");
                 scanf("%d", &choixModification);
 
@@ -50,7 +49,7 @@ int main() {
                         printf("1. Modifier un Client\n");
                         printf("2. Ajout un Client\n");
                         printf("3. Supprimer un Client\n");
-                        printf("4. Retour au menu modification\n");
+                        printf("9. Retour au menu modification\n");
                         printf("Votre choix : ");
                         scanf("%d",&choixClient);
                         switch (choixClient){
@@ -70,7 +69,7 @@ int main() {
                                 break;
                         }  
 
-                    } while (choixClient != 4 );
+                    } while (choixClient != 9 );
                     
                 case 2:
                     printf("Modifier un Chargeur.\n");
@@ -81,7 +80,7 @@ int main() {
                         printf("1. Modifier un Chargeur\n");
                         printf("2. Ajout un Chargeur\n");
                         printf("3. Supprimer un Chargeur\n");
-                        printf("4. Retour au menu modification\n");
+                        printf("9. Retour au menu modification\n");
                         printf("Votre choix : ");
                         scanf("%d",&choixChargeur);
                         switch (choixChargeur){
@@ -97,7 +96,7 @@ int main() {
                             default:
                                 printf("Tapez un nombre valide\n");
                         }
-                    } while (choixChargeur != 4);
+                    } while (choixChargeur != 9);
                     break;
                 case 3:
                     printf("Modifier un Paiement.\n");
@@ -108,7 +107,7 @@ int main() {
                             printf("1. Modifier un Paiement\n");
                             printf("2. Ajout un Paiement\n");
                             printf("3. Supprimer un Paiement\n");
-                            printf("4. Retour au menu Paiement\n");
+                            printf("9. Retour au menu Paiement\n");
                             printf("Votre choix : ");
                             scanf("%d",&choixPaiement);
                             switch (choixPaiement){
@@ -124,42 +123,15 @@ int main() {
                                 default:
                                     printf("Tapez un nombre valide\n");
                             }
-                        } while (choixPaiement != 4);
+                        } while (choixPaiement != 9);
                     break;
-                case 4:
-                    printf("Modifier un Voiture.\n");
-                        int choixVoiture;
-                        do
-                        {
-                            printf("\n*--------Modification du Voiture-------*\n");
-                            printf("1. Modifier un Voiture\n");
-                            printf("2. Ajout un Voiture\n");
-                            printf("3. Supprimer un Voiture\n");
-                            printf("4. Retour au menu Voiture\n");
-                            printf("Votre choix : ");
-                            scanf("%d",&choixVoiture);
-                            switch (choixVoiture){
-                                case 1:
-                                    printf("\n*----------Modification du Voiture------*\n");
-                                    break;
-                                case 2:
-                                    printf("\n*----------Ajout du Voiture------*\n");
-                                    break;
-                                case 3:
-                                    printf("\n*----------Suppression du Voiture------*\n");
-                                    break;
-                                default:
-                                    printf("Tapez un nombre valide\n");
-                            }
-                        } while (choixVoiture != 4);
-                    break;
-                case 5:
+                case 9:
                     printf("Retour au menu principal.\n");
                     break;
                 default:
                     printf("Choix invalide.\n");
                 }
-            } while (choixModification != 5);
+            } while (choixModification != 9);
             break;
         }
         case 2: {
@@ -169,7 +141,7 @@ int main() {
                 printf("1. Total des paiements\n");
                 printf("2. Temps restant pour charger une voiture\n");
                 printf("3. Chargeurs disponibles\n");
-                printf("4. Retour au menu principal\n");
+                printf("9. Retour au menu principal\n");
                 printf("Votre choix : ");
                 scanf("%d", &choixTraitement);
 
@@ -187,7 +159,7 @@ int main() {
                 case 3:
                     ChargeursDisponibles(station);
                     break;
-                case 4:
+                case 9:
                     printf("Retour au menu principal.\n");
                     break;
                 default:
@@ -196,13 +168,13 @@ int main() {
             } while (choixTraitement != 4);
             break;
         }
-        case 3:
+        case 9:
             printf("Goodbye!\n");
             break;
         default:
             printf("Choix invalide.\n");
         }
-    } while (choixMenu != 3);
+    } while (choixMenu != 9);
 
     LibereMemoire(station);
     return 0;

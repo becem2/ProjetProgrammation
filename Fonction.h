@@ -15,3 +15,5 @@ void TempsRestantClient(STATION* , int );
 void ChargeursDisponibles(STATION* );
 float TotalPaiement(STATION*);
 void AjouterClient(STATION* );
+void AjouterChargeur(STATION*);
+void AjouterPaiement(STATION* );

@@ -31,7 +31,7 @@ struct client {
 typedef struct client CLIENT;
 
 struct chargeur {
-    int CodeClient;
+    int CodeChargeur;
     int Type;
     int EtatUtilisation;
     char EtatMaintenance[1000];
