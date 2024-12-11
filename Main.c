@@ -182,10 +182,10 @@ int main(){
                         printf("2. Temps restant pour charger une voiture\n");
                         printf("3. Trouver un chargeur disponible et de type conforme\n");
                         printf("4. Combien de chargeur disponible\n");
-                        //printf("5. Client du mois\n");
                         printf("5. Moin Chargee voiture\n");
                         printf("6. Plus chargee voiture\n");
                         printf("7. Marque de la voiture la plus frequente\n");
+                        printf("8. Meilleur Client(Resultat)\n");
                         printf("9. Retour au menu\n");
                         printf("Votre choix : ");
                         scanf("%d",&ChoixTraitement);
@@ -206,13 +206,21 @@ int main(){
                             CombienChargeurDisponible(station);
                             break;
                         case 5:
-                            PlusChargeeVoiture(station);
+                            MoinChargeeVoiture(station);
                             break;
                         case 6:
-                            MoinChargeeVoiture(station);
+                            PlusChargeeVoiture(station);
                             break;
                         case 7:
                             MarqueDeVoiture(station);
+                            break;
+                        case 8:
+                            RESULTAT *resultat;
+                            resultat = MeilleurClient(station);
+                            printf("les 3 meilleurs clients sont : \n");
+                            for(int i =0;i<3;i++){
+                                printf("%d\n",resultat->CodeClient);
+                            }
                             break;
                         default:
                             printf("Tapez un Nombre Valide!!");

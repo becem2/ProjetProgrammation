@@ -10,7 +10,6 @@ void AllocationChargeurs(CHARGEUR** chargeur, int n) {
         printf("Erreur d'allocation memoire pour les chargeurs.");
         exit(-1);
     }
-    printf("***********Allocation du chargeur succes!!\n");
 }
 void AllocationClients(CLIENT** client, int n) {
     *client = (CLIENT*)malloc(n * sizeof(CLIENT));
@@ -18,7 +17,6 @@ void AllocationClients(CLIENT** client, int n) {
         printf("Erreur d'allocation memoire pour les clients.");
         exit(-2);
     }
-    printf("***********Allocation du clients succes!!\n");
 }
 void AllocationVoitures(VOITURE**voiture,int n){
     *voiture = (VOITURE*)malloc(n * sizeof(VOITURE));
@@ -26,7 +24,6 @@ void AllocationVoitures(VOITURE**voiture,int n){
         printf("Erreur d'allocation memoire pour les voitures.");
         exit(-3);
     }
-    printf("***********Allocation du voitures succes!!\n");
 }
 void AllocationPaiements(PAIEMENT**paiement,int n){
     *paiement = (PAIEMENT*)malloc(n * sizeof(PAIEMENT));
@@ -34,7 +31,6 @@ void AllocationPaiements(PAIEMENT**paiement,int n){
         printf("Erreur d'allocation memoire pour les paiements.");
         exit(-4);
     }
-    printf("***********Allocation du paiements succes!!\n");
 
 }
 void RemplireChargeur(STATION**station,int i){
@@ -80,14 +76,9 @@ void RemplireClient(STATION**station,int i){
             scanf("%f",&(*station)->client[i].paiement[j].prix);
         }
 }
-
-
-//remplire station
 void RemplireStation(STATION*station){
-    //Nombre des chargeurs
     printf("Saisire le nombre de chargeurs : ");
     scanf("%d",&station->NbChargeur);
-    //Nombre des clients
     printf("Saisire le nombre de clients : ");
     scanf("%d",&station->NbClient);
     AllocationChargeurs(&station->chargeur,station->NbChargeur);
@@ -197,7 +188,8 @@ void ModifierClient(STATION*station){
         scanf("%f", &station->client[ind].voiture[i].TypeChargeur);
     }
     for (int i = 0; i < station->client[ind].NbPaiement; i++) {
-        printf("Saisire la Nouvelle date (l'ancient est : %d/%d/%d) : \n",station->client[ind].paiement[i].date.jour,station->client[ind].paiement[i].date.mois,station->client[ind].paiement[i].date.annee);
+        printf("Saisire la Nouvelle date (l'ancient est : %d/%d/%d) : \n",station->client[ind].paiement[i].date.jour,
+        station->client[ind].paiement[i].date.mois,station->client[ind].paiement[i].date.annee);
         printf("Jour : ");
         scanf("%d",&station->client[ind].paiement[i].date.jour);
         printf("Mois : ");
@@ -274,7 +266,8 @@ void ModifierPaiement(STATION*station){
         printf("Code Paiement invalide!\n");
         return;
     }
-    printf("Donner Nouvelle Date : (ancienne est : %d/%d/%d) : \n",station->client[indC].paiement[indP].date.jour,station->client[indC].paiement[indP].date.mois,station->client[indC].paiement[indP].date.annee);
+    printf("Donner Nouvelle Date : (ancienne est : %d/%d/%d) : \n",station->client[indC].paiement[indP].date.jour,
+    station->client[indC].paiement[indP].date.mois,station->client[indC].paiement[indP].date.annee);
     printf("Jour : ");
     scanf("%d",&station->client[indC].paiement[indP].date.jour);
     printf("Mois : ");
@@ -304,7 +297,8 @@ void AjoutVoiture(STATION*station){
         printf("Code client invalide!\n");
         return;
     }
-    station->client[ind].voiture = (VOITURE*)realloc(station->client[ind].voiture, (station->client[ind].NbVoiture + 1) * sizeof(VOITURE));
+    station->client[ind].voiture = (VOITURE*)realloc(station->client[ind].voiture, 
+    (station->client[ind].NbVoiture + 1) * sizeof(VOITURE));
     station->client[ind].NbVoiture +=1;
     int n = station->client[ind].NbVoiture-1;
 
@@ -330,7 +324,8 @@ void AjoutPaiement(STATION*station){
         printf("Code client invalide!\n");
         return;
     }
-    station->client[ind].paiement = (PAIEMENT*)realloc(station->client[ind].paiement, (station->client[ind].NbPaiement + 1) * sizeof(PAIEMENT));
+    station->client[ind].paiement = (PAIEMENT*)realloc(station->client[ind].paiement,
+     (station->client[ind].NbPaiement + 1) * sizeof(PAIEMENT));
     station->client[ind].NbPaiement +=1;
     int n = station->client[ind].NbPaiement-1;
     printf("Tapez la date du paiements : \n");
@@ -396,7 +391,8 @@ void SupprimerVoiture(STATION*station){
     for (int i=indV;i <station->client[i].NbVoiture -1;i++) {
         station->client[indC].voiture[i]=station->client[indC].voiture[i+1];
     }
-    station->client[indC].voiture = (VOITURE*)realloc(station->client[indC].voiture,(station->client[indC].NbVoiture-1)*sizeof(VOITURE));
+    station->client[indC].voiture = (VOITURE*)realloc(station->client[indC].voiture,
+    (station->client[indC].NbVoiture-1)*sizeof(VOITURE));
     station->client[indC].NbVoiture -= 1;
     printf("Voiture supprime avec succes\n");
 }
@@ -420,7 +416,8 @@ void SupprimerPaiement(STATION*station){
     for (int i=indP;i <station->client[i].NbPaiement -1;i++) {
         station->client[indC].paiement[i]=station->client[indC].paiement[i+1];
     }
-    station->client[indC].paiement = (PAIEMENT*)realloc(station->client[indC].paiement,(station->client[indC].NbPaiement-1)*sizeof(PAIEMENT));
+    station->client[indC].paiement = (PAIEMENT*)realloc(station->client[indC].paiement,
+    (station->client[indC].NbPaiement-1)*sizeof(PAIEMENT));
     station->client[indC].NbPaiement -= 1;
     printf("Paiement supprime avec succes\n");
 }
@@ -446,34 +443,35 @@ void AfficherClient(STATION*station){
     
     printf("Nombre Paiement : %d\n",station->client[ind].NbPaiement);
     for(int i = 0;i<station->client[ind].NbPaiement;i++){
-        printf("Date du paiement : %2d/%2d/%4d\n",station->client[ind].paiement[i].date.jour,station->client[ind].paiement[i].date.mois,station->client[ind].paiement[i].date.annee);
+        printf("Date du paiement : %2d/%2d/%4d\n",station->client[ind].paiement[i].date.jour,
+        station->client[ind].paiement[i].date.mois,station->client[ind].paiement[i].date.annee);
         printf("Montant du paiement : %.2f\n",station->client[ind].paiement[i].prix);
     }
 
 }
 void AfficherChargeur(STATION*station){
     int ind;
-    printf("Saisir le code du chargeur a supprimer : ");
+    printf("Saisir le code du chargeur a Afficher : ");
     scanf("%d", &ind);
     ind -= 1;
     if (ind < 0 || ind >= station->NbChargeur) {
         printf("Code chargeur invalide!\n");
         return;
     }
-    printf("Etat utilisation : %d",station->chargeur[ind].EtatUtilisation);
-    printf("TypeChargeur : %d",station->chargeur[ind].TypeChargeur);
+    printf("Etat utilisation : %d\n",station->chargeur[ind].EtatUtilisation);
+    printf("TypeChargeur : %d\n",station->chargeur[ind].TypeChargeur);
     
 }
 void AfficherVoiture(STATION*station){
     int indC,indV;
-    printf("Saisir le code du client a supprimer : ");
+    printf("Saisir le code du client a Afficher : ");
     scanf("%d", &indC);
     indC -= 1;
     if (indC < 0 || indC >= station->NbClient) {
         printf("Code client invalide!\n");
         return;
     }
-    printf("Saisir le code du voiture a supprimer : ");
+    printf("Saisir le code du voiture a Afficher : ");
     scanf("%d", &indV);
     indV -= 1;
     if (indV < 0 || indV >= station->client[indC].NbVoiture) {
@@ -488,22 +486,23 @@ void AfficherVoiture(STATION*station){
 }
 void AfficherPaiement(STATION*station){
     int indC,indP;
-    printf("Saisir le code du client a supprimer : ");
+    printf("Saisir le code du client a Afficher : ");
     scanf("%d", &indC);
     indC -= 1;
     if (indC < 0 || indC >= station->NbClient) {
         printf("Code client invalide!\n");
         return;
     }
-    printf("Saisir le code du paiement a supprimer : ");
+    printf("Saisir le code du paiement a Afficher : ");
     scanf("%d", &indP);
     indP -= 1;
     if (indP < 0 || indP >= station->client[indC].NbPaiement) {
         printf("Code Paiement invalide!\n");
         return;
     }
-    printf("Date du paiement : %2d/%2d/%4d",station->client[indC].paiement[indP].date.jour,station->client[indC].paiement[indP].date.mois,station->client[indC].paiement[indP].date.annee);
-    printf("Montant du paiement : %.2f ",station->client[indC].paiement[indP].prix);
+    printf("Date du paiement : %2d/%2d/%4d\n",station->client[indC].paiement[indP].date.jour,
+    station->client[indC].paiement[indP].date.mois,station->client[indC].paiement[indP].date.annee);
+    printf("Montant du paiement : %.2f \n",station->client[indC].paiement[indP].prix);
     
 }
 float TotalePaiement(STATION*station){
@@ -559,7 +558,8 @@ void TrouverChargeur(STATION*station){
     int NbChargeurDisponible= 0;
     int TypeChargeurVoiture = station->client[indC].voiture[indV].TypeChargeur;
     for (int i  = 0;i<station->NbChargeur;i++){
-        if (TypeChargeurVoiture == station->chargeur[i].TypeChargeur && station->chargeur[i].EtatUtilisation == 1) NbChargeurDisponible ++;
+        if (TypeChargeurVoiture == station->chargeur[i].TypeChargeur && station->chargeur[i].EtatUtilisation == 1) 
+        NbChargeurDisponible ++;
     }
     if (NbChargeurDisponible>0) printf("Il est %d Chargeur disponible de meme type \n",NbChargeurDisponible);
     else printf("Il n'ya pas de chargeur de meme type disponible \n");
@@ -641,5 +641,56 @@ void MarqueDeVoiture(STATION*station) {
         }
     }
 }
+float Somme(STATION* station, int i) {
+    float s = 0; 
+    for (int j = 0; j < station->client[i].NbPaiement; j++) {
+        s += station->client[i].paiement[j].prix;
+    }
+    return s;
+}
+
+RESULTAT* MeilleurClient(STATION* station) {
+    RESULTAT* resultat = (RESULTAT*)malloc(3 * sizeof(RESULTAT));
+
+    int indTop1 = -1, indTop2 = -1, indTop3 = -1;
+    float max1 = 0.0, max2 = 0.0, max3 = 0.0;
+
+    for (int i = 0; i < station->NbClient; i++) {
+        float sommePaiements = Somme(station, i);
+
+        if (sommePaiements > max1) {
+            max3 = max2;
+            indTop3 = indTop2;
+
+            max2 = max1;
+            indTop2 = indTop1;
+
+            max1 = sommePaiements;
+            indTop1 = i;
+        } else if (sommePaiements > max2) {
+            max3 = max2;
+            indTop3 = indTop2;
+
+            max2 = sommePaiements;
+            indTop2 = i;
+        } else if (sommePaiements > max3) {
+            max3 = sommePaiements;
+            indTop3 = i;
+        }
+    }
+
+    resultat[0].CodeClient = indTop1;
+    resultat[0].SommePaiements = max1;
+
+    resultat[1].CodeClient = indTop2;
+    resultat[1].SommePaiements = max2;
+
+    resultat[2].CodeClient = indTop3;
+    resultat[2].SommePaiements = max3;
+
+    return resultat;
+}
+
+
 
 

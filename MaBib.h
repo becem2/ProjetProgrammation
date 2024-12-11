@@ -1,5 +1,6 @@
 struct resultat{
-
+    int CodeClient;
+    float SommePaiements;
 };typedef struct resultat RESULTAT;
 struct voiture {
     int NbSerie;
@@ -9,20 +10,17 @@ struct voiture {
     int TypeChargeur;
 };
 typedef struct voiture VOITURE;
-
 struct date {
     int jour;
     int mois;
     int annee;
 };
 typedef struct date DATE;
-
 struct paiement {
     DATE date;
     int prix;
 };
 typedef struct paiement PAIEMENT;
-
 struct client {
     int NbVoiture;
     VOITURE* voiture;
@@ -30,13 +28,11 @@ struct client {
     PAIEMENT* paiement;
 };
 typedef struct client CLIENT;
-
 struct chargeur {
     int EtatUtilisation;
     int TypeChargeur;
 };
 typedef struct chargeur CHARGEUR;
-
 struct station {
     int NbChargeur;
     int NbClient;

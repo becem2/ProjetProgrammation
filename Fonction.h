@@ -32,3 +32,4 @@ void TempsRestant(STATION*);
 void PlusChargeeVoiture(STATION*);
 void MoinChargeeVoiture(STATION*);
 void MarqueDeVoiture(STATION*);
+RESULTAT* MeilleurClient(STATION*);
