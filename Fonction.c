@@ -452,11 +452,194 @@ void AfficherClient(STATION*station){
 
 }
 void AfficherChargeur(STATION*station){
+    int ind;
+    printf("Saisir le code du chargeur a supprimer : ");
+    scanf("%d", &ind);
+    ind -= 1;
+    if (ind < 0 || ind >= station->NbChargeur) {
+        printf("Code chargeur invalide!\n");
+        return;
+    }
+    printf("Etat utilisation : %d",station->chargeur[ind].EtatUtilisation);
+    printf("TypeChargeur : %d",station->chargeur[ind].TypeChargeur);
     
 }
 void AfficherVoiture(STATION*station){
-    
+    int indC,indV;
+    printf("Saisir le code du client a supprimer : ");
+    scanf("%d", &indC);
+    indC -= 1;
+    if (indC < 0 || indC >= station->NbClient) {
+        printf("Code client invalide!\n");
+        return;
+    }
+    printf("Saisir le code du voiture a supprimer : ");
+    scanf("%d", &indV);
+    indV -= 1;
+    if (indV < 0 || indV >= station->client[indC].NbVoiture) {
+        printf("Code Voiture invalide!\n");
+        return;
+    }
+    printf("Numero Serie de la voiture : %d\n",station->client[indC].voiture[indV].NbSerie);
+    printf("Marque de la voiture : %99s\n",station->client[indC].voiture[indV].Marque);
+    printf("Model de la voiture : %99s\n",station->client[indC].voiture[indV].Model);
+    printf("Pourcentage de la voiture : %.2f\n",station->client[indC].voiture[indV].Pourcentage);
+    printf("TypeChargeur de la voiture : %d\n",station->client[indC].voiture[indV].TypeChargeur);
 }
 void AfficherPaiement(STATION*station){
+    int indC,indP;
+    printf("Saisir le code du client a supprimer : ");
+    scanf("%d", &indC);
+    indC -= 1;
+    if (indC < 0 || indC >= station->NbClient) {
+        printf("Code client invalide!\n");
+        return;
+    }
+    printf("Saisir le code du paiement a supprimer : ");
+    scanf("%d", &indP);
+    indP -= 1;
+    if (indP < 0 || indP >= station->client[indC].NbPaiement) {
+        printf("Code Paiement invalide!\n");
+        return;
+    }
+    printf("Date du paiement : %2d/%2d/%4d",station->client[indC].paiement[indP].date.jour,station->client[indC].paiement[indP].date.mois,station->client[indC].paiement[indP].date.annee);
+    printf("Montant du paiement : %.2f ",station->client[indC].paiement[indP].prix);
     
 }
+float TotalePaiement(STATION*station){
+    float x = 0;
+    for (int i = 0;i<station->NbClient;i++){
+        for (int j = 0;j<station->client[i].NbPaiement;j++){
+            x += station->client[i].paiement[j].prix;
+        }
+    }
+    return x;
+}
+void TempsRestant(STATION*station){
+    int indC,indV;
+    printf("Saisir le code du client : ");
+    scanf("%d", &indC);
+    indC -= 1;
+    if (indC < 0 || indC >= station->NbClient) {
+        printf("Code client invalide!\n");
+        return;
+    }
+    printf("Saisir le code du voiture : ");
+    scanf("%d", &indV);
+    indV -= 1;
+    if (indV < 0 || indV >= station->client[indC].NbVoiture) {
+        printf("Code Voiture invalide!\n");
+        return;
+    }
+    float temp;
+    int heure,minute,seconde;
+    temp = (100 - station->client[indC].voiture[indV].Pourcentage)*150;
+    heure = (int)temp /3600;
+    minute = ((int)temp %3600 )/60;
+    seconde = (int)temp %60;
+    printf("Temps restant est : %d:%d:%d",heure,minute,seconde);
+}
+
+void TrouverChargeur(STATION*station){
+    int indC,indV;
+    printf("Saisir le code du client : ");
+    scanf("%d", &indC);
+    indC -= 1;
+    if (indC < 0 || indC >= station->NbClient) {
+        printf("Code client invalide!\n");
+        return;
+    }
+    printf("Saisir le code du voiture : ");
+    scanf("%d", &indV);
+    indV -= 1;
+    if (indV < 0 || indV >= station->client[indC].NbVoiture) {
+        printf("Code Voiture invalide!\n");
+        return;
+    }
+    int NbChargeurDisponible= 0;
+    int TypeChargeurVoiture = station->client[indC].voiture[indV].TypeChargeur;
+    for (int i  = 0;i<station->NbChargeur;i++){
+        if (TypeChargeurVoiture == station->chargeur[i].TypeChargeur && station->chargeur[i].EtatUtilisation == 1) NbChargeurDisponible ++;
+    }
+    if (NbChargeurDisponible>0) printf("Il est %d Chargeur disponible de meme type \n",NbChargeurDisponible);
+    else printf("Il n'ya pas de chargeur de meme type disponible \n");
+
+}
+void CombienChargeurDisponible(STATION*station){
+    int disp;
+    for (int i =0;i<station->NbChargeur;i++){
+        if(station->chargeur[i].EtatUtilisation == 1) disp++;
+    }
+    if (disp>0) printf("Il y'a %d Chargeur disponible\n",disp);
+    else printf("Il n'ya aucun chargeur disponible\n");
+}
+void PlusChargeeVoiture(STATION*station){
+    float max = 0;
+    int indMaxC= 0,indMaxV = 0;
+
+    for (int i = 0;i<station->NbClient;i++){
+        for (int j = 0;j<station->client[i].NbVoiture;j++){
+            if(max<station->client[i].voiture[j].Pourcentage){
+                max = station->client[i].voiture[j].Pourcentage;
+                indMaxV = j;
+                indMaxC = i;
+            }
+        }
+    }
+    printf("La voiture la plus chargee est %s %s du client %d\n",
+    station->client[indMaxC].voiture[indMaxV].Marque,station->client[indMaxC].voiture[indMaxV].Model,
+    indMaxC+1);
+}
+void MoinChargeeVoiture(STATION*station){
+    float min = 0;
+    int indMinC= 0,indMinV = 0;
+
+    for (int i = 0;i<station->NbClient;i++){
+        for (int j = 0;j<station->client[i].NbVoiture;j++){
+            if(min>station->client[i].voiture[j].Pourcentage){
+                min = station->client[i].voiture[j].Pourcentage;
+                indMinV = j;
+                indMinC = i;
+            }
+        }
+    }
+    printf("La voiture la moins chargee est %s %s du client %d\n",
+    station->client[indMinC].voiture[indMinV].Marque,station->client[indMinC].voiture[indMinV].Model,
+    indMinC+1);
+
+}
+void MarqueDeVoiture(STATION*station) {
+    char marque[50];
+    int DejaProccede = 0;
+    const int n = station->NbClient;
+    char MatDejaFais[n*50][50];
+    for (int i = 0; i < station->NbClient; i++) {
+        for (int j = 0; j < station->client[i].NbVoiture; j++) {
+            int DejaFais = 0;
+            strcpy(marque, station->client[i].voiture[j].Marque);
+            for (int p = 0; p < DejaProccede; p++) {
+                if (strcmp(MatDejaFais[p], marque) == 0) {
+                    DejaFais = 1;
+                    break;
+                }
+            }
+            if (DejaFais) {
+                continue;
+            }
+            strcpy(MatDejaFais[DejaProccede], marque);
+            DejaProccede++;
+            int x = 0;
+            for (int k = 0; k < station->NbClient; k++) {
+                for (int z = 0; z < station->client[k].NbVoiture; z++) {
+                    if (strcmp(station->client[k].voiture[z].Marque, marque) == 0) {
+                        x++;
+                    }
+                }
+            }
+
+            printf("La marque %s apparait %d fois.\n", marque, x);
+        }
+    }
+}
+
+

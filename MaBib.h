@@ -1,3 +1,6 @@
+struct resultat{
+
+};typedef struct resultat RESULTAT;
 struct voiture {
     int NbSerie;
     char Marque[100];

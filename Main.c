@@ -173,6 +173,55 @@ int main(){
                                 }
                         } while (ChoixModification != 9);
                     break;
+                case 2:
+                    int ChoixTraitement;
+                    do
+                    {
+                        printf("\n*--------Traitement-------*\n");
+                        printf("1. Totale des paiement\n");
+                        printf("2. Temps restant pour charger une voiture\n");
+                        printf("3. Trouver un chargeur disponible et de type conforme\n");
+                        printf("4. Combien de chargeur disponible\n");
+                        //printf("5. Client du mois\n");
+                        printf("5. Moin Chargee voiture\n");
+                        printf("6. Plus chargee voiture\n");
+                        printf("7. Marque de la voiture la plus frequente\n");
+                        printf("9. Retour au menu\n");
+                        printf("Votre choix : ");
+                        scanf("%d",&ChoixTraitement);
+                        switch (ChoixTraitement)
+                        {
+                        case 1:
+                            float x;
+                            x = TotalePaiement(station);
+                            printf("Le totale des paiement est : %.2f",x);
+                            break;
+                        case 2:
+                            TempsRestant(station);
+                            break;
+                        case 3:
+                            TrouverChargeur(station);
+                            break;
+                        case 4:
+                            CombienChargeurDisponible(station);
+                            break;
+                        case 5:
+                            PlusChargeeVoiture(station);
+                            break;
+                        case 6:
+                            MoinChargeeVoiture(station);
+                            break;
+                        case 7:
+                            MarqueDeVoiture(station);
+                            break;
+                        default:
+                            printf("Tapez un Nombre Valide!!");
+                            break;
+                        }
+
+                    } while (ChoixTraitement != 9);
+                    
+                    break;
                 case 3:
                 int ChoixAffichage;
                 do
@@ -182,6 +231,7 @@ int main(){
                     printf("2. Affichage Chargeur\n");
                     printf("3. Affichage Voiture\n");
                     printf("4. Affichage Paiement\n");
+                    printf("9. Retour au menu\n");
                     printf("Votre choix : ");
                     scanf("%d",&ChoixAffichage);
                     switch (ChoixAffichage)
@@ -211,18 +261,6 @@ int main(){
                     break;
                 }
             } while (ChoixMenu != 9);
-    for (int i = 0;i<station->NbChargeur;i++){
-        printf("etat : %d\n",station->chargeur[i].EtatUtilisation);
-    }
-    for (int i = 0;i<station->NbClient;i++){
-        for (int j=0;j<station->client[i].NbVoiture;j++){
-            printf("%d\n",station->client[i].voiture[j].NbSerie);
-            printf("Model : %s\n",station->client[i].voiture[j].Model);
-        }
-        for (int j = 0;j<station->client[i].NbPaiement;j++){
-            printf("%2d/%2d/%4d\n",station->client[i].paiement[j].date.jour,station->client[i].paiement[j].date.mois,station->client[i].paiement[j].date.annee);
-        }
-    }
     RemplireFichierduTableau(station);
     LibereMemoire(station);
     getch();
