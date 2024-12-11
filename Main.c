@@ -2,180 +2,229 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 
-int main() {
-    STATION* station = NULL;
-    const char* NomFichier = "stations.bin";
 
-    printf("*-----------------------------*\n");
-
-    if (fopen(NomFichier, "rb") != NULL) {
-        printf("Le fichier existe deja. Chargement des donnees...\n");
-        ChargerFichier(&station, NomFichier);
-    } else {
-        printf("Le fichier n'existe pas. Creation et remplissage...\n");
-        AllocationStation(&station);
-        *station = RemplirStation();
-        SauvegarderFichier(station, NomFichier);
+int main(){
+    STATION station[1];
+    printf("\n------------------------------------");
+    if (fopen("station.bin","rb")!= NULL){
+        printf("\nLe fichier existe deja\nChargement des donnees\n");
+        RemplireTableauDuFichier(station);
     }
-
-    int choixMenu;
-    do {
-        printf("\n*-------------- Menu Principal -------------*\n");
-        printf("1. Modification du fichier\n");
-        printf("2. Traitement\n");
-        printf("9. Quitter\n");
-        printf("Votre choix : ");
-        scanf("%d", &choixMenu);
-
-        switch (choixMenu) {
-        case 1: {
-            int choixModification;
-            do {
-                printf("\n*-------- Modification du Fichier --------*\n");
-                printf("1. Modifier Client\n");
-                printf("2. Modifier Chargeur\n");
-                printf("3. Modifier Paiement\n");
-                printf("9. Retour au menu principal\n");
+    else{
+        printf("Le fichier n'existe pas\n");
+        printf("On va le remplire \n");
+        RemplireStation(station);
+    }
+    int ChoixMenu;
+    do
+            {
+                printf("\n*-------------- Menu Principal -------------*\n");
+                printf("1. Modification du fichier\n");
+                printf("2. Traitement\n");
+                printf("3. Affichage\n");
+                printf("9. Quitter\n");
                 printf("Votre choix : ");
-                scanf("%d", &choixModification);
-
-                switch (choixModification) {
+                scanf("%d", &ChoixMenu);
+                switch (ChoixMenu)
+                {
                 case 1:
-                    printf("Modifier un client.\n");
-                    int choixClient;
-                    do{
-                        printf("\n*--------Modification du Client-------*\n");
-                        printf("1. Modifier un Client\n");
-                        printf("2. Ajout un Client\n");
-                        printf("3. Supprimer un Client\n");
-                        printf("9. Retour au menu modification\n");
-                        printf("Votre choix : ");
-                        scanf("%d",&choixClient);
-                        switch (choixClient){
-                            case 2:
-                                printf("\n*----------Ajout du client------*\n");
-                                AjouterClient(station);
-                                SauvegarderFichier(station, NomFichier);
-                                break;
-                            case 1:
-                                printf("\n*----------Modification du client------*\n");
-                                break;
-                            case 3:
-                                printf("\n*----------Suppression du client------*\n");
-                                break;
-                            default:
-                                printf("Tapez un nombre valide!!");
-                                break;
-                        }  
-
-                    } while (choixClient != 9 );
-                    
-                case 2:
-                    printf("Modifier un Chargeur.\n");
-                    int choixChargeur;
+                    int ChoixModification;
                     do
-                    {
-                        printf("\n*--------Modification du Chargeur-------*\n");
-                        printf("1. Modifier un Chargeur\n");
-                        printf("2. Ajout un Chargeur\n");
-                        printf("3. Supprimer un Chargeur\n");
-                        printf("9. Retour au menu modification\n");
-                        printf("Votre choix : ");
-                        scanf("%d",&choixChargeur);
-                        switch (choixChargeur){
-                            case 1:
-                                printf("\n*----------Modification du Chargeur------*\n");
-                                break;
-                            case 2:
-                                printf("\n*----------Ajout du Chargeur------*\n");
-                                break;
-                            case 3:
-                                printf("\n*----------Suppression du Chargeur------*\n");
-                                break;
-                            default:
-                                printf("Tapez un nombre valide\n");
-                        }
-                    } while (choixChargeur != 9);
-                    break;
-                case 3:
-                    printf("Modifier un Paiement.\n");
-                        int choixPaiement;
-                        do
                         {
-                            printf("\n*--------Modification du Paiement-------*\n");
-                            printf("1. Modifier un Paiement\n");
-                            printf("2. Ajout un Paiement\n");
-                            printf("3. Supprimer un Paiement\n");
-                            printf("9. Retour au menu Paiement\n");
+                            printf("\n*-------- Modification du Fichier --------*\n");
+                            printf("1. Modifier Client\n");
+                            printf("2. Modifier Chargeur\n");
+                            printf("3. Modifier Paiement\n");
+                            printf("4. Modifier Voiture\n");
+                            printf("9. Retour au menu principal\n");
                             printf("Votre choix : ");
-                            scanf("%d",&choixPaiement);
-                            switch (choixPaiement){
+                            scanf("%d", &ChoixModification);
+                            switch (ChoixModification)
+                                {
                                 case 1:
-                                    printf("\n*----------Modification du Paiement------*\n");
+                                    int ChoixClient;
+                                    do
+                                        {
+                                            printf("\n*--------Modification du Client-------*\n");
+                                            printf("1. Modifier un Client\n");
+                                            printf("2. Ajout un Client\n");
+                                            printf("3. Supprimer un Client\n");
+                                            printf("9. Retour au menu modification\n");
+                                            printf("Votre choix : ");
+                                            scanf("%d",&ChoixClient);
+                                            switch (ChoixClient)
+                                            {
+                                            case 1:
+                                                printf("\n*----------Modifier un client------*\n");
+                                                ModifierClient(station);
+                                                break;
+                                            case 2:
+                                                printf("\n*----------Ajout un client------*\n");
+                                                AjoutClient(station);
+                                                break;
+                                            case 3:
+                                                printf("\n*----------supprimer un client------*\n");
+                                                SupprimerClient(station);
+                                                break;
+                                            default:
+                                                printf("Tapez un Nombre Valide!!");
+                                                break;
+                                            }
+                                        } while (ChoixClient !=9);
                                     break;
                                 case 2:
-                                    printf("\n*----------Ajout du Paiement------*\n");
+                                    int ChoixChargeur;
+                                    do
+                                    {
+                                        printf("\n*--------Modification du Chargeur-------*\n");
+                                        printf("1. Modifier un Chargeur\n");
+                                        printf("2. Ajout un Chargeur\n");
+                                        printf("3. Supprimer un Chargeur\n");
+                                        printf("9. Retour au menu modification\n");
+                                        printf("Votre choix : ");
+                                        scanf("%d",&ChoixChargeur);
+                                        switch (ChoixChargeur)
+                                        {
+                                            case 1:
+                                                printf("\n*----------Modification du Chargeur------*\n");
+                                                ModifierChargeur(station);
+                                                break;
+                                            case 2:
+                                                printf("\n*----------Ajout un Chargeur------*\n");
+                                                AjoutChargeur(station);
+                                                break;
+                                            case 3 :
+                                                printf("\n*----------Suppression du Chargeur------*\n");
+                                                SupprimerChargeur(station);
+                                                break;
+                                            default:
+                                                printf("Tapez un Nombre Valide!!");
+                                                break;
+                                            }
+                                    } while (ChoixChargeur !=9);
                                     break;
                                 case 3:
-                                    printf("\n*----------Suppression du Paiement------*\n");
+                                    int ChoixPaiement;
+                                    do
+                                        {
+                                            printf("\n*--------Modification du Paiement-------*\n");
+                                            printf("1. Modifier un Paiement\n");
+                                            printf("2. Ajout un Paiement\n");
+                                            printf("3. Supprimer un Paiement\n");
+                                            printf("9. Retour au menu Paiement\n");
+                                            printf("Votre choix : ");
+                                            scanf("%d",&ChoixPaiement);
+                                            switch (ChoixPaiement)
+                                            {
+                                            case 1:
+                                                printf("\n*----------Modification du Paiement------*\n");
+                                                ModifierPaiement(station);
+                                                break;
+                                            case 2:
+                                                printf("\n*----------Ajout du Paiement------*\n");
+                                                AjoutPaiement(station);
+                                                break;
+                                            case 3:
+                                                printf("\n*----------Suppression du Paiement------*\n");
+                                                SupprimerPaiement(station);
+                                                break;
+                                            default:
+                                                printf("Tapez un Nombre Valide!!");
+                                                break;
+                                            }
+                                        } while (ChoixPaiement != 9);
+                                        break;
+                                case 4:
+                                    int ChoixVoiture;
+                                    do
+                                    {
+                                        printf("\n*--------Modification du Voiture-------*\n");
+                                        printf("1. Modifier un Voiture\n");
+                                        printf("2. Ajout un Voiture\n");
+                                        printf("3. Supprimer un Voiture\n");
+                                        printf("9. Retour au menu Voiture\n");
+                                        printf("Votre choix : ");
+                                        scanf("%d",&ChoixVoiture);
+                                        switch (ChoixVoiture)
+                                        {
+                                        case 1:
+                                            printf("\n*----------Modification du Voiture------*\n");
+                                            ModifierVoiture(station);
+                                            break;
+                                        case 2:
+                                            printf("\n*----------Ajout du Voiture------*\n");
+                                            AjoutVoiture(station);
+                                            break;
+                                        case 3 :
+                                            printf("\n*----------Suppression du Voiture------*\n");
+                                            SupprimerVoiture(station);
+                                            break;
+                                        
+                                        default:
+                                            break;
+                                        }
+                                    } while (ChoixVoiture != 9);
                                     break;
                                 default:
-                                    printf("Tapez un nombre valide\n");
-                            }
-                        } while (choixPaiement != 9);
+                                    printf("Tapez un Nombre Valide!!");
+                                    break;
+                                }
+                        } while (ChoixModification != 9);
                     break;
-                case 9:
-                    printf("Retour au menu principal.\n");
-                    break;
-                default:
-                    printf("Choix invalide.\n");
-                }
-            } while (choixModification != 9);
-            break;
-        }
-        case 2: {
-            int choixTraitement;
-            do {
-                printf("\n*------------ Traitement -----------*\n");
-                printf("1. Total des paiements\n");
-                printf("2. Temps restant pour charger une voiture\n");
-                printf("3. Chargeurs disponibles\n");
-                printf("9. Retour au menu principal\n");
-                printf("Votre choix : ");
-                scanf("%d", &choixTraitement);
-
-                switch (choixTraitement) {
-                case 1:
-                    printf("Total des paiements : %.2f\n", TotalPaiement(station));
-                    break;
-                case 2: {
-                    int CodeClient;
-                    printf("Saisir le code client : ");
-                    scanf("%d", &CodeClient);
-                    TempsRestantClient(station, CodeClient);
-                    break;
-                }
                 case 3:
-                    ChargeursDisponibles(station);
-                    break;
-                case 9:
-                    printf("Retour au menu principal.\n");
-                    break;
-                default:
-                    printf("Choix invalide.\n");
-                }
-            } while (choixTraitement != 4);
-            break;
-        }
-        case 9:
-            printf("Goodbye!\n");
-            break;
-        default:
-            printf("Choix invalide.\n");
-        }
-    } while (choixMenu != 9);
+                int ChoixAffichage;
+                do
+                {
+                    printf("\n*--------Affichage-------*\n");
+                    printf("1. Affichage Client\n");
+                    printf("2. Affichage Chargeur\n");
+                    printf("3. Affichage Voiture\n");
+                    printf("4. Affichage Paiement\n");
+                    printf("Votre choix : ");
+                    scanf("%d",&ChoixAffichage);
+                    switch (ChoixAffichage)
+                    {
+                    case 1:
+                        AfficherClient(station);
+                        break;
+                    case 2:
+                        AfficherChargeur(station);
+                        break;
+                    case 3 :
+                        AfficherVoiture(station);
+                        break;
+                    case 4:
+                        AfficherPaiement(station);
+                        break;
+                    
+                    default:
+                        printf("Tapez un Nombre Valide!!");
+                        break;
+                    }
 
+                } while (ChoixAffichage !=9);
+                
+                default:
+                    printf("GoodBye");
+                    break;
+                }
+            } while (ChoixMenu != 9);
+    for (int i = 0;i<station->NbChargeur;i++){
+        printf("etat : %d\n",station->chargeur[i].EtatUtilisation);
+    }
+    for (int i = 0;i<station->NbClient;i++){
+        for (int j=0;j<station->client[i].NbVoiture;j++){
+            printf("%d\n",station->client[i].voiture[j].NbSerie);
+            printf("Model : %s\n",station->client[i].voiture[j].Model);
+        }
+        for (int j = 0;j<station->client[i].NbPaiement;j++){
+            printf("%2d/%2d/%4d\n",station->client[i].paiement[j].date.jour,station->client[i].paiement[j].date.mois,station->client[i].paiement[j].date.annee);
+        }
+    }
+    RemplireFichierduTableau(station);
     LibereMemoire(station);
+    getch();
     return 0;
 }
